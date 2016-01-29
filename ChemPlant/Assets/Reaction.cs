@@ -9,7 +9,7 @@ public abstract class Reaction
 
 	private static LinkedList<Reaction> _reactions;
 
-	public abstract void run(IDictionary<Chemical, float> contents, float timeslice);
+	public abstract void run(IDictionary<Chemical, float> reactorContents, float timeslice);
 
 	protected Reaction()
 	{
@@ -17,31 +17,41 @@ public abstract class Reaction
 	}
 }
 
-
 public class BurnHydrogen : Reaction
 {
 	public const float RATE = 100;
 
-	public void run(IDictionary<Chemical, float> contents, float timeslice)
+	public void run(IDictionary<Chemical, float> reactorContents, float timeslice)
 	{
 		try
 		{
-			float hydrogen = contents[Chemical.HYDROGEN];
-			float oxygen = contents[Chemical.OXYGEN];
+			float hydrogen = reactorContents[Chemical.HYDROGEN];
+			float oxygen = reactorContents[Chemical.OXYGEN];
 
-			float wannaBurnO2 = 1 * timeslice * RATE;
-			float wannaBurnH = 2 * timeslice * RATE;
+			float wannaBurnO2 = timeslice * RATE;
+			if(wannaBurnO2 > oxygen)
+				wannaBurnO2 = oxygen;
 
-			//nooo wrong, it's allowed to burn less than the full rate/second if there isn't that much in the tank
-			if(wannaBurnO2 <= oxygen
-			&& wannaBurnH <= hydrogen)
+			float wannaBurnH = wannaBurnO2 * 2;
+			if(wannaBurnH > hydrogen)
 			{
-				contents[Chemical.HYDROGEN] -= wannaBurnH;
-				contents[Chemical.OXYGEN] -= wannaBurnO2;
+				wannaBurnH = hydrogen;
+				wannaBurnO2 = wannaBurnH /2;
+			}
 
-				if(contents.ContainsKey(Chemical.WATER))
+			if(wannaBurnH > 0
+			&& wannaBurnO2 > 0)
+			{
+				reactorContents[Chemical.HYDROGEN] -= wannaBurnH;
+				reactorContents[Chemical.OXYGEN] -= wannaBurnO2;
+
+				if(!reactorContents.ContainsKey(Chemical.WATER))
 				{
-					contents.Add(Chemical.WATER, wannaBurnO2);
+					reactorContents.Add(Chemical.WATER, wannaBurnO2);
+				}
+				else
+				{
+					reactorContents[Chemical.WATER] += wannaBurnO2;
 				}
 			}
 

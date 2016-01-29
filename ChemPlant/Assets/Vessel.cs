@@ -32,25 +32,35 @@ public class Vessel : MonoBehaviour
 {
 	public float capacity;
 
-
 	/*maps chemical to quantity of that chemical*/
 	private IDictionary<Chemical, float> _contents = new Dictionary<Chemical, float>();
 
 	private ICollection<Pipe> _outputs = new LinkedList<Pipe>();
 
 	// Use this for initialization
-	void Start ()
+	void Start()
 	{
 	
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
 		foreach(Reaction reaction in Reaction.getReactions())
 		{
 			reaction.run(_contents, Time.deltaTime);
 		}
+	}
+
+	void OnMouseDown()
+	{
+		//TODO: replace with clickable stuff!
+		Pipe.startPipe(this);
+	}
+
+	public void onPipeConnected(Pipe pipe)
+	{
+		_outputs.Add(pipe);
 	}
 
 	//adds chemical to the contents, as much as there's room, and returns the excess.
