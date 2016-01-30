@@ -1,53 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-//TODO: get this to work so that I can do it in the unity editor.
-
-public abstract class Reaction
+public class Reaction : MonoBehaviour
 {
-	public abstract void run(ref IDictionary<Chemical, float> reactorContents, float timeslice);
-}
+	public float rate;
+	public ChemPair[] reagents;
+	public ChemPair[] products;
 
-public class BurnHydrogen : Reaction
-{
-	public const float RATE = 100;
+	/*whatever reacts the least number of times defines how many reactions you are able to do. if any react zero
+	times you can't do it at all.*/
 
-	public override void run(ref IDictionary<Chemical, float> reactorContents, float timeslice)
+	public void run(ref IDictionary<Chemical, float> reactorContents, float timeslice)
 	{
 		try
 		{
-			float hydrogen = reactorContents[Chemical.HYDROGEN];
-			float oxygen = reactorContents[Chemical.OXYGEN];
-
-			float wannaBurnO2 = timeslice * RATE;
-			if(wannaBurnO2 > oxygen)
-				wannaBurnO2 = oxygen;
-
-			float wannaBurnH = wannaBurnO2 * 2;
-			if(wannaBurnH > hydrogen)
+			/*find out which chemical can react the least number of times, based on the amount in the tank and the
+			demands of the formula. That dictates how many reactions can take place.*/
+			int leastReactions = -1;
+			foreach(ChemPair term in reagents)
 			{
-				wannaBurnH = hydrogen;
-				wannaBurnO2 = wannaBurnH /2;
+				int numReactions = (int)(reactorContents[term.chemical.GetComponent<Chemical>()]/term.quantity);
+
+				if(leastReactions < 0 || numReactions <= leastReactions)
+				{
+					leastReactions = numReactions;
+				}
 			}
 
-			if(wannaBurnH > 0
-			&& wannaBurnO2 > 0)
+			if(leastReactions > 0)
 			{
-				reactorContents[Chemical.HYDROGEN] -= wannaBurnH;
-				reactorContents[Chemical.OXYGEN] -= wannaBurnO2;
+				foreach(ChemPair term in reagents)
+				{
+					float react = Mathf.Min(rate, leastReactions) * timeslice * term.quantity;
+					reactorContents[term.chemical.GetComponent<Chemical>()] -= react;
+				}
 
-				if(!reactorContents.ContainsKey(Chemical.WATER))
+				//TODO: bother to check that products can't exceed capacity? have that make the vessel go boom?
+
+				foreach(ChemPair term in products)
 				{
-					reactorContents.Add(Chemical.WATER, wannaBurnO2);
+					float react = Mathf.Min(rate, leastReactions) * timeslice * term.quantity;
+
+					if(reactorContents.ContainsKey(term.chemical.GetComponent<Chemical>()))
+					{
+						reactorContents[term.chemical.GetComponent<Chemical>()] += react;
+					}
+					else
+					{
+						reactorContents.Add(term.chemical.GetComponent<Chemical>(), react);
+					}
 				}
-				else
-				{
-					reactorContents[Chemical.WATER] += wannaBurnO2;
-				}
+
 			}
 
 		}
-		catch(KeyNotFoundException e)
+		catch(KeyNotFoundException)
 		{
 			//nothing
 		}
