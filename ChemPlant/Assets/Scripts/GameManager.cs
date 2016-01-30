@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 	public enum STATE
 	{
 		BRIEFING,
+		REFERENCE,
 		PLAYING,
 		WON,
 		LOST
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 	private STATE _state;
 
 	private string _briefingText;
+	private string _referenceText;
 
 	public STATE getState() {return _state;} //TODO: call from Vessel or clickable w/e and prevent input if not playing
 
@@ -37,11 +39,16 @@ public class GameManager : MonoBehaviour
 	 */
 	public List<ChemPair> loseConditions;
 
-	private LinkedList<Vessel> _vessels;	
+	private LinkedList<Vessel> _vessels = new LinkedList<Vessel>();	
 	private static GameManager _instance = null;
 	
 	public static GameManager getInstance() {return _instance;}
-	
+
+	public Canvas outGameCanvas;
+	public Canvas inGameCanvas;
+
+
+
 	void Awake()
 	{
 		if(_instance != null)
@@ -49,39 +56,45 @@ public class GameManager : MonoBehaviour
 		
 		_instance = this;
 
-		_vessels = new LinkedList<Vessel>();
+		_vessels.Clear();
 	}
 
 	void Start()
 	{
 		_state = STATE.BRIEFING;
-		_briefingText = generateBriefing();
+		_referenceText = generateReferenceText();
 	}
 
-	public void registerVessel(Vessel v) {_vessels.AddLast(v);}
+	public void registerVessel(Vessel v)
+	{
+		_vessels.AddLast(v);
+		_briefingText = generateBriefing();
+	}
 
 	void Update()
 	{
 		switch(_state)
 		{
 		case STATE.WON:
-			GetComponentInChildren<Canvas>().enabled = true;
-			GetComponentInChildren<Text>().text = "You Won!";
-			GetComponentInChildren<Button>().onClick.RemoveAllListeners();
-			GetComponentInChildren<Button>().onClick.AddListener(delegate {loadMenuScene();});
+			inGameCanvas.enabled = false;
+			outGameCanvas.enabled = true;
+			outGameCanvas.GetComponentInChildren<Text>().text = "You Won!";
+			outGameCanvas.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+			outGameCanvas.GetComponentInChildren<Button>().onClick.AddListener(delegate {loadMenuScene();});
 			break;
 
 		case STATE.LOST:
-			GetComponentInChildren<Canvas>().enabled = true;
-			GetComponentInChildren<Text>().text = "You Lost. " + getColouredChemName(_lossReason.chemical) +  " reached " + _lossReason.quantity + ".";
-			GetComponentInChildren<Button>().onClick.RemoveAllListeners();
-			GetComponentInChildren<Button>().onClick.AddListener(delegate {loadMenuScene();});
+			inGameCanvas.enabled = false;
+			outGameCanvas.enabled = true;
+			outGameCanvas.GetComponentInChildren<Text>().text = "You Lost. " + getColouredChemName(_lossReason.chemical) +  " reached " + _lossReason.quantity + ".";
+			outGameCanvas.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+			outGameCanvas.GetComponentInChildren<Button>().onClick.AddListener(delegate {loadMenuScene();});
 
 			break;
-			//TODO: replace with call to the modern UI stuff.
 
 		case STATE.PLAYING:	
-			GetComponentInChildren<Canvas>().enabled = false;
+			outGameCanvas.enabled = false;
+			inGameCanvas.enabled = true;
 			//any lose condition must be satisfied for loss, in any vessel
 			IEnumerator<ChemPair> loseCondition = null;
 			bool lost = false;
@@ -131,7 +144,7 @@ public class GameManager : MonoBehaviour
 						}
 						catch(KeyNotFoundException)
 						{
-							/*ok*/
+
 						}
 					}
 				}
@@ -144,10 +157,18 @@ public class GameManager : MonoBehaviour
 			break;
 
 		case STATE.BRIEFING:
-			GetComponentInChildren<Canvas>().enabled = true;
-			GetComponentInChildren<Text>().text = _briefingText;
-			GetComponentInChildren<Button>().onClick.RemoveAllListeners();
-			GetComponentInChildren<Button>().onClick.AddListener(delegate {resumePlay();});
+			inGameCanvas.enabled = false;
+			outGameCanvas.enabled = true;
+			outGameCanvas.GetComponentInChildren<Text>().text = _briefingText;
+			outGameCanvas.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+			outGameCanvas.GetComponentInChildren<Button>().onClick.AddListener(delegate {resumePlay();});
+			break;
+		case STATE.REFERENCE:
+			inGameCanvas.enabled = false;
+			outGameCanvas.enabled = true;
+			outGameCanvas.GetComponentInChildren<Text>().text = _referenceText;
+			outGameCanvas.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+			outGameCanvas.GetComponentInChildren<Button>().onClick.AddListener(delegate {resumePlay();});
 			break;
 		}
 	}
@@ -155,6 +176,16 @@ public class GameManager : MonoBehaviour
 	public void resumePlay()
 	{
 		_state = STATE.PLAYING;
+	}
+
+	public void openBriefing()
+	{
+		_state = STATE.BRIEFING;
+	}
+
+	public void openReference()
+	{
+		_state = STATE.REFERENCE;
 	}
 
 	public void loadMenuScene()
@@ -170,6 +201,40 @@ public class GameManager : MonoBehaviour
 	private string getColouredChemName(GameObject chem)
 	{
 		return getColouredChemName(chem.GetComponent<Chemical>());
+	}
+
+	private string getColouredChemSymbol(Chemical chem)
+	{
+		return "<color=\"#" +chem.colour.ToHexStringRGB() + "\">" + chem.symbol + "</color>";
+	}
+	
+	private string getColouredChemSymbol(GameObject chem)
+	{
+		return getColouredChemSymbol(chem.GetComponent<Chemical>());
+	}
+
+
+	private string generateReferenceText()
+	{
+		string reference = "";
+
+		foreach(Reaction r in ReactionManager.getInstance().reactions)
+		{
+			foreach(ChemPair reagent in r.GetComponent<Reaction>().reagents)
+			{
+				reference += (reagent.quantity > 0?((int)reagent.quantity).ToString():"") + getColouredChemSymbol(reagent.chemical) + " ";
+			}
+
+			reference += "→ ";
+
+			foreach(ChemPair product in r.GetComponent<Reaction>().products)
+			{
+				reference += (product.quantity > 0?((int)product.quantity).ToString():"") + getColouredChemSymbol(product.chemical) + " ";
+			}
+			reference += "\n";
+		}
+
+		return reference;
 	}
 
 	private string generateBriefing()
@@ -202,7 +267,7 @@ public class GameManager : MonoBehaviour
 			vesselNum++;
 		}
 
-		briefing += "\n<i>Hazards</i>:\n"; //TODO: ok name?
+		briefing += "\n<i>Hazards</i>:\n";
 
 		if(loseConditions.Count == 0)
 		{
@@ -215,9 +280,6 @@ public class GameManager : MonoBehaviour
 				briefing += "\t•" + condition.quantity + " units of " + getColouredChemName(condition.chemical)  + ".\n";
 			}
 		}
-
-
-		print(briefing);
 
 		return briefing;
 	}	

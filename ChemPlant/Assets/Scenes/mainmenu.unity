@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSceneNames:
   - Water
+  - Hazard Test
 --- !u!4 &647499037
 Transform:
   m_ObjectHideFlags: 0
