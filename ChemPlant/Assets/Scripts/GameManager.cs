@@ -162,9 +162,14 @@ public class GameManager : MonoBehaviour
 		Application.LoadLevel(MainMenu.MENU_SCENE);
 	}
 
+	private string getColouredChemName(Chemical chem)
+	{
+		return "<color=\"#" +chem.colour.ToHexStringRGB() + "\">" + chem.gameObject.name + "</color>";
+	}
+
 	private string getColouredChemName(GameObject chem)
 	{
-		return "<color=\"#" +chem.GetComponent<Chemical>().colour.ToHexStringRGB() + "\">" + chem.name + "</color>";
+		return getColouredChemName(chem.GetComponent<Chemical>());
 	}
 
 	private string generateBriefing()
@@ -176,9 +181,30 @@ public class GameManager : MonoBehaviour
 			briefing += "\t•" + condition.quantity + " units of " + getColouredChemName(condition.chemical)  + ".\n";
 		}
 
+		briefing += "\n<i>Initial setup</i>:\n";
+		int vesselNum = 1;
+		foreach(Vessel v in _vessels)
+		{
+			briefing += "\tVessel #" + vesselNum + ", " + v.capacity + " units capacity:\n";
+
+			if(v.getQuantity() == 0)
+			{
+				briefing += "\t\t•empty.\n";
+			}
+			else
+			{
+				foreach(KeyValuePair<Chemical, float> p in v.getContents())
+				{
+					briefing += "\t\t•" + p.Value + " units of " + getColouredChemName(p.Key) + ".\n";
+				}
+			}
+
+			vesselNum++;
+		}
+
 		//TODO: fail conditions
 
-		//TODO: initial conditions of vessels
+
 
 		print(briefing);
 
