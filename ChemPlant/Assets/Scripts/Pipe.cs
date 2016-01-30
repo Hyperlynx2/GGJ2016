@@ -45,8 +45,7 @@ public class Pipe : MonoBehaviour
 			_inputVessel.onPipeConnected(this);
 		}
 	}
-
-
+	
 	private bool _isOpen;
 	private Vessel _outputVessel = null;
 	private Vessel _inputVessel = null;
@@ -55,7 +54,7 @@ public class Pipe : MonoBehaviour
 	returns the amount of chem left over*/
 	public float pushChemical(Chemical chem, float flowRate)
 	{
-		//TODO:
-		return 0;
+		//TODO: opening/closing pipes, only pushing the chemical while the pipe is open.
+		return _outputVessel.addChemical(chem, Time.deltaTime * flowRate);
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Chemical : System.IEquatable<Chemical>
+public class Chemical : MonoBehaviour, System.IEquatable<Chemical>
 {
 	public string name;
 	public Color colour;
@@ -13,7 +13,6 @@ public class Chemical : System.IEquatable<Chemical>
 		this.name = name; 
 		colour = new Color(r, g, b);
 	}
-
 
 	public static Chemical HYDROGEN = new Chemical("Hydrogen", 255, 0, 0);
 	public static Chemical OXYGEN = new Chemical("Hydrogen", 0, 0, 255);

@@ -5,23 +5,14 @@ using System.Collections.Generic;
 
 public abstract class Reaction
 {
-	public static ICollection<Reaction> getReactions() {return _reactions;}
-
-	private static LinkedList<Reaction> _reactions = new LinkedList<Reaction>();
-
-	public abstract void run(IDictionary<Chemical, float> reactorContents, float timeslice);
-
-	protected Reaction()
-	{
-		_reactions.AddLast(this);
-	}
+	public abstract void run(ref IDictionary<Chemical, float> reactorContents, float timeslice);
 }
 
 public class BurnHydrogen : Reaction
 {
 	public const float RATE = 100;
 
-	public override void run(IDictionary<Chemical, float> reactorContents, float timeslice)
+	public override void run(ref IDictionary<Chemical, float> reactorContents, float timeslice)
 	{
 		try
 		{

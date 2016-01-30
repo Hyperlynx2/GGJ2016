@@ -21,7 +21,6 @@ public class ClickManager : MonoBehaviour
 			throw new Exception("MouseManager is a singleton");
 		
 		_instance = this;
-		_clickables = new LinkedList<BaseClickable>();
 	}
 	
 	public static ClickManager getInstance()
@@ -31,12 +30,7 @@ public class ClickManager : MonoBehaviour
 		
 		return _instance;
 	}
-	
-	public void registerClickable(BaseClickable clickable)
-	{
-		_clickables.AddLast(clickable);
-	}
-	
+
 	//if the user clicks somewhere and it doesn't hit any of the clickables, call this thing's onClickedOn()
 	public void registerDefaultClick(BaseClickable clickable)
 	{
@@ -48,8 +42,7 @@ public class ClickManager : MonoBehaviour
 	{
 		_defaultOnClickRelease = clickable;
 	}
-	
-	private LinkedList<BaseClickable> _clickables;
+
 	private BaseClickable _defaultOnClickedOn;
 	private BaseClickable _defaultOnClickRelease;
 	
