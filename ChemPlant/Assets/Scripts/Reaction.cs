@@ -6,9 +6,15 @@ public class Reaction : MonoBehaviour
 	public float rate;
 	public ChemPair[] reagents;
 	public ChemPair[] products;
+	public AudioClip reactionSound;
 
-	/*whatever reacts the least number of times defines how many reactions you are able to do. if any react zero
-	times you can't do it at all.*/
+	//don't start playing sound if already running
+	private bool _alreadyRunning;
+
+	void Start()
+	{
+		_alreadyRunning = false;
+	}
 
 	public void run(ref IDictionary<Chemical, float> reactorContents, float timeslice)
 	{
@@ -29,6 +35,12 @@ public class Reaction : MonoBehaviour
 
 			if(leastReactions > 0)
 			{
+				if(!_alreadyRunning)
+				{
+					AudioManager.getInstance().play(reactionSound);
+					_alreadyRunning = true;
+				}
+
 				foreach(ChemPair term in reagents)
 				{
 					float react = Mathf.Min(rate, leastReactions) * timeslice * term.quantity;
@@ -50,7 +62,11 @@ public class Reaction : MonoBehaviour
 						reactorContents.Add(term.chemical.GetComponent<Chemical>(), react);
 					}
 				}
-
+			}
+			else
+			{
+				AudioManager.getInstance().stop(reactionSound);
+				_alreadyRunning = false;
 			}
 
 		}

@@ -41,6 +41,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa29b28e2ad6964d9c121eeaa30e70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beginPipeSound: {fileID: 8300000, guid: a6d9d0fbc86cd89409a4dad71e75834e, type: 3}
+  endPipeSound: {fileID: 8300000, guid: a6d9d0fbc86cd89409a4dad71e75834e, type: 3}
 --- !u!120 &12025668
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -106,6 +108,22 @@ Prefab:
       propertyPath: m_Parameters.endWidth
       value: .300000012
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: beginPipeSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a6d9d0fbc86cd89409a4dad71e75834e, type: 3}
+    - target: {fileID: 0}
+      propertyPath: endPipeSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a6d9d0fbc86cd89409a4dad71e75834e, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134280}

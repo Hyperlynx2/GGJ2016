@@ -41,6 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Water
   colour: {r: .580882311, g: .965314388, b: 1, a: 0}
+  flowSound: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -63,6 +64,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: colour.b
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: flowSound
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -100,7 +100,6 @@ public class Vessel : BaseClickable
 		vec.y = -1 * (1 - (totalQuantity / capacity));
 		contents.localPosition = vec;
 
-
 		foreach(Reaction reaction in ReactionManager.getInstance().reactions)
 		{
 			reaction.run(ref _contents, Time.deltaTime);
@@ -108,7 +107,7 @@ public class Vessel : BaseClickable
 
 		logMessage += "</" + gameObject.name + ">\n";
 
-		print (logMessage);
+		//print (logMessage);
 	}
 
 	/*for rendering pipes.

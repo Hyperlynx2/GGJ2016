@@ -5,6 +5,7 @@ public class Chemical : MonoBehaviour, System.IEquatable<Chemical>
 {
 	public string name;	
 	public Color colour;
+	public AudioClip flowSound;
 
 	public bool Equals(Chemical other) {return this.name.Equals(other.name);}
 

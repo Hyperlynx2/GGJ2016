@@ -14,15 +14,6 @@ public class ClickManager : MonoBehaviour
 	{
 		public Exception(string message) : base(message) {}
 	}
-	
-	public ClickManager()
-	{
-		if(_instance != null)
-			throw new Exception("MouseManager is a singleton");
-		
-		_instance = this;
-	}
-	
 	public static ClickManager getInstance()
 	{
 		if(_instance == null)
@@ -45,7 +36,14 @@ public class ClickManager : MonoBehaviour
 
 	private BaseClickable _defaultOnClickedOn;
 	private BaseClickable _defaultOnClickRelease;
-	
+
+	void Start()
+	{
+		if(_instance != null)
+			throw new Exception("MouseManager is a singleton");
+		
+		_instance = this;
+	}
 
 	void Update()
 	{

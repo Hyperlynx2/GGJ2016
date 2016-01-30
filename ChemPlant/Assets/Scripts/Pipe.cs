@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Pipe : MonoBehaviour
 {
+	public AudioClip beginPipeSound;
+	public AudioClip endPipeSound;
+
 	//0 to 1. How open the pipe is.
 	private float _flowRate;
 
@@ -10,8 +13,6 @@ public class Pipe : MonoBehaviour
 	void Start ()
 	{
 		_flowRate = 1;
-		_isOpen = false;
-
 	}
 	
 	// Update is called once per frame
@@ -32,6 +33,7 @@ public class Pipe : MonoBehaviour
 	{
 		_inputVessel = v;
 		GetComponent<LineRenderer>().SetPosition(0, _inputVessel.getPipeOutPoint());
+		AudioManager.getInstance().playOnce(beginPipeSound);
 	}
 
 	/*called by PipeManager*/
@@ -47,10 +49,10 @@ public class Pipe : MonoBehaviour
 		{
 			GetComponent<LineRenderer>().SetPosition(1, _outputVessel.getPipeInPoint());
 			_inputVessel.onPipeConnected(this);
+			AudioManager.getInstance().playOnce(endPipeSound);
 		}
 	}
-	
-	private bool _isOpen;
+
 	private Vessel _outputVessel = null;
 	private Vessel _inputVessel = null;
 
