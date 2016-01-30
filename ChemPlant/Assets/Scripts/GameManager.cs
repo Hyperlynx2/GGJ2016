@@ -202,8 +202,19 @@ public class GameManager : MonoBehaviour
 			vesselNum++;
 		}
 
-		//TODO: fail conditions
+		briefing += "\n<i>Hazards</i>:\n"; //TODO: ok name?
 
+		if(loseConditions.Count == 0)
+		{
+			briefing += "\t•none.";
+		}
+		else
+		{
+			foreach (ChemPair condition in loseConditions)
+			{
+				briefing += "\t•" + condition.quantity + " units of " + getColouredChemName(condition.chemical)  + ".\n";
+			}
+		}
 
 
 		print(briefing);
