@@ -1,0 +1,5 @@
+/ChemPlant/Library
+/ChemPlant/Temp
+*.csproj
+*.sln
+*.userprefs
