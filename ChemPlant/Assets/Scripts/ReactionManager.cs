@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ReactionManager : MonoBehaviour
 {
-	private ICollection<Reaction> _reactions;
+	public Reaction[] 
 
 	private static ReactionManager _instance = null;
 
@@ -13,7 +13,6 @@ public class ReactionManager : MonoBehaviour
 			throw new System.Exception("ReactionManager is a singleton!");
 
 		_reactions = new LinkedList<Reaction>();
-		_reactions.Add(new BurnHydrogen());
 
 		_instance = this;
 	}
