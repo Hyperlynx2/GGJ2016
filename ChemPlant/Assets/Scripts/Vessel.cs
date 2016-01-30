@@ -20,18 +20,7 @@ using System.Collections.Generic;
  store references to the vessels you're linking TO. that is, the vessel your output will go to. create those links
  when connecting pipe, break those links when disconnecting pipe.
 
- later on, being fancy, could store those pipes as actual game entities rather than just cosmetics, but for now just reference what
- you're connecting to.
-
  Actually, they do have to be entities because they have to be "on" or not, for whether to send the chemicals through or not.  */
-
-[System.Serializable]
-public struct ChemPair
-{
-	public GameObject chemical;
-	public float quantity;
-}
-
 public class Vessel : BaseClickable
 {
 	public float capacity;
@@ -42,13 +31,17 @@ public class Vessel : BaseClickable
 
 	private ICollection<Pipe> _outputs = new LinkedList<Pipe>();
 
-	// Use this for initialization
+	/**used by ProductionManager to tell when to end the level*/
+	public IDictionary<Chemical, float> getContents() {return _contents;}
+	
 	void Start()
 	{
 		foreach(ChemPair chem in startingChemicals)
 		{
 			_contents.Add(chem.chemical.GetComponent<Chemical>(), chem.quantity);
 		}
+
+		ProductionManager.getInstance().registerVessel(this);
 	}
 
 	private Dictionary<Chemical, float> _changes = new Dictionary<Chemical, float>();

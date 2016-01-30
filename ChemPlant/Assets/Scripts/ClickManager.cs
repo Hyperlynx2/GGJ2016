@@ -37,7 +37,7 @@ public class ClickManager : MonoBehaviour
 	private BaseClickable _defaultOnClickedOn;
 	private BaseClickable _defaultOnClickRelease;
 
-	void Start()
+	void Awake()
 	{
 		if(_instance != null)
 			throw new Exception("MouseManager is a singleton");

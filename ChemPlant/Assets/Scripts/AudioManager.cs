@@ -7,8 +7,7 @@ public class AudioManager : MonoBehaviour
 
 	public static AudioManager getInstance() {return _instance;}
 
-	// Use this for initialization
-	void Start()
+	void Awake()
 	{
 		if(_instance != null)
 			throw new System.Exception("AudioManager is a singleton!");

@@ -9,7 +9,7 @@ public class ReactionManager : MonoBehaviour
 	
 	public static ReactionManager getInstance() {return _instance;}
 
-	void Start()
+	void Awake()
 	{
 		if(_instance != null)
 			throw new System.Exception("ReactionManager is a singleton!");
