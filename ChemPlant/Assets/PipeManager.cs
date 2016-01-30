@@ -29,7 +29,9 @@ public class PipeManager : BaseClickable
 	//called when un-clicking on a vessel
 	public void endPipe(Vessel end)
 	{
-		_currentlyConnecting.setOutputVessel(end);
+		if(_currentlyConnecting != null)
+			_currentlyConnecting.setOutputVessel(end);
+
 		_currentlyConnecting = null;
 	}
 	

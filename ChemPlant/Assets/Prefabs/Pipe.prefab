@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 494390}
   - 120: {fileID: 12025668}
   - 114: {fileID: 11472186}
+  - 136: {fileID: 13654662}
   m_Layer: 0
   m_Name: Pipe
   m_TagString: Untagged
@@ -68,8 +69,8 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: 1
-    endWidth: 1
+    startWidth: .300000012
+    endWidth: .300000012
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295
@@ -77,13 +78,34 @@ LineRenderer:
       serializedVersion: 2
       rgba: 4294967295
   m_UseWorldSpace: 1
+--- !u!136 &13654662
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134280}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .5
+  m_Height: 0
+  m_Direction: 1
+  m_Center: {x: 1.57356262e-05, y: 1.57356262e-05, z: .500015736}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Parameters.startWidth
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Parameters.endWidth
+      value: .300000012
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134280}

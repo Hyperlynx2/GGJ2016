@@ -22,8 +22,6 @@ public class ClickManager : MonoBehaviour
 		
 		_instance = this;
 		_clickables = new LinkedList<BaseClickable>();
-		_clickTarget = new Vector2();
-		_clickPos = new Vector2();
 	}
 	
 	public static ClickManager getInstance()
@@ -55,42 +53,28 @@ public class ClickManager : MonoBehaviour
 	private BaseClickable _defaultOnClickedOn;
 	private BaseClickable _defaultOnClickRelease;
 	
-	//to not keep newing these each time:
-	private Vector2 _clickTarget;
-	private Vector2 _clickPos;
-	
+
 	void Update()
 	{
 		if(Input.GetMouseButtonDown(0)
 		|| Input.GetMouseButtonUp(0))
 		{
-			Vector3 clickPos = Input.mousePosition;
-			clickPos.z = Camera.main.transform.position.z;
-			clickPos = Camera.main.ScreenToWorldPoint(clickPos);
-			
-			_clickPos.x = clickPos.x;
-			_clickPos.y = clickPos.y;
-			
-			bool found = false;
-			IEnumerator<BaseClickable> i = _clickables.GetEnumerator();
-			while(i.MoveNext() && !found)
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit = new RaycastHit();
+
+			if(Physics.Raycast(ray, out hit, 100.0f))
 			{
-				_clickTarget.x = i.Current.transform.position.x;
-				_clickTarget.y = i.Current.transform.position.y;
-				
-				_clickTarget += i.Current.clickableOffset;
-				
-				if ((_clickTarget - _clickPos).magnitude <= i.Current.clickableRadius)
+				BaseClickable clickable = hit.collider.GetComponent<BaseClickable>();
+
+				if(clickable != null)
 				{
-					found = true;
 					if(Input.GetMouseButtonDown(0))
-						i.Current.onClickedOn();
+						clickable.onClickedOn();
 					else if(Input.GetMouseButtonUp(0))
-						i.Current.onClickRelease();
+						clickable.onClickRelease();
 				}
-			}
-			
-			if(!found)
+			}			
+			else
 			{
 				if(Input.GetMouseButtonDown(0) && _defaultOnClickedOn != null)
 					_defaultOnClickedOn.onClickedOn();

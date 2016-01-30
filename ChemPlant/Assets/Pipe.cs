@@ -13,7 +13,14 @@ public class Pipe : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-
+		if(_outputVessel == null)
+		{
+			Vector3 pos = Input.mousePosition;
+			pos.z = -Camera.main.transform.position.z;
+			pos = Camera.main.ScreenToWorldPoint(pos);
+			pos.z = 0;
+			GetComponent<LineRenderer>().SetPosition(1, pos);
+		}
 	}
 
 	/*called by PipeManager*/
@@ -41,7 +48,7 @@ public class Pipe : MonoBehaviour
 
 
 	private bool _isOpen;
-	private Vessel _outputVessel;
+	private Vessel _outputVessel = null;
 	private Vessel _inputVessel = null;
 
 	/*adds chemical to the destination vessel.
