@@ -53,16 +53,16 @@ public class Vessel : BaseClickable
 
 	private Dictionary<Chemical, float> _changes = new Dictionary<Chemical, float>();
 
+	private Color _contentsColor;
+
 	// Update is called once per frame
 	void Update()
 	{
 		string logMessage = "<" + gameObject.name + ">\n";
 
-		Color colour = GetComponent<Renderer>().material.color;
-
-		colour.r = 0;
-		colour.g = 0;
-		colour.b = 0;
+		_contentsColor.r = 0;
+		_contentsColor.g = 0;
+		_contentsColor.b = 0;
 
 		float totalQuantity = getQuantity();
 		_changes.Clear();
@@ -73,14 +73,14 @@ public class Vessel : BaseClickable
 
 			foreach(Pipe pipe in _outputs)
 			{
-				float quantityPiped = pipe.pushChemical(chem, Mathf.Min(10, _contents[chem]));
+				float piped = pipe.pushChemical(chem, Mathf.Min(10, _contents[chem]) * Time.deltaTime);
 
-				_changes[chem] -= quantityPiped;
+				_changes[chem] -= piped;
 			}
 
-			colour.r += chem.colour.r * _contents[chem]/totalQuantity;
-			colour.g += chem.colour.g * _contents[chem]/totalQuantity;
-			colour.b += chem.colour.b * _contents[chem]/totalQuantity;
+			_contentsColor.r += chem.colour.r * _contents[chem]/totalQuantity;
+			_contentsColor.g += chem.colour.g * _contents[chem]/totalQuantity;
+			_contentsColor.b += chem.colour.b * _contents[chem]/totalQuantity;
 		}
 
 		foreach(KeyValuePair<Chemical, float> change in _changes)
@@ -90,8 +90,16 @@ public class Vessel : BaseClickable
 				_contents.Remove(change.Key);
 		}
 
+		Transform contents = transform.GetChild(0);
+		contents.GetComponent<Renderer>().material.color = _contentsColor;
+		Vector3 vec = contents.localScale;
+		vec.y = totalQuantity / capacity;
+		contents.localScale = vec;
+		 
+		vec = contents.localPosition;
+		vec.y = -1 * (1 - (totalQuantity / capacity));
+		contents.localPosition = vec;
 
-		GetComponent<Renderer>().material.color = colour;
 
 		foreach(Reaction reaction in ReactionManager.getInstance().reactions)
 		{
@@ -142,16 +150,13 @@ public class Vessel : BaseClickable
 		return totalQuantity;
 	}
 
-	//adds chemical to the contents, as much as there's room, and returns the excess.
+	//adds chemical to the contents, as much as there's room. returns how much was added.
 	public float addChemical(Chemical chem, float inputQuantity)
 	{
-		float excess = 0;
-
 		float capacityRemaining = capacity - getQuantity();
 
 		if(capacityRemaining < inputQuantity)
 		{
-			excess = inputQuantity - capacityRemaining;
 			inputQuantity = capacityRemaining;
 		}
 
@@ -164,8 +169,7 @@ public class Vessel : BaseClickable
 			_contents.Add(chem, inputQuantity);
 		}
 
-		return excess;
-
+		return inputQuantity;
 	}
 
 	

@@ -3,9 +3,13 @@ using System.Collections;
 
 public class Pipe : MonoBehaviour
 {
+	//0 to 1. How open the pipe is.
+	private float _flowRate;
+
 	// Use this for initialization
 	void Start ()
 	{
+		_flowRate = 1;
 		_isOpen = false;
 
 	}
@@ -50,11 +54,12 @@ public class Pipe : MonoBehaviour
 	private Vessel _outputVessel = null;
 	private Vessel _inputVessel = null;
 
-	/*adds chemical to the destination vessel.
-	returns the amount of chem left over*/
-	public float pushChemical(Chemical chem, float flowRate)
+	/*adds chemical to the destination vessel, modified by pipe's flow rate.
+	returns the amount of chem that was added.
+	CALLER'S RESPONSIBILITY TO FACTOR IN DELTATIME!*/
+	public float pushChemical(Chemical chem, float quantity)
 	{
 		//TODO: opening/closing pipes, only pushing the chemical while the pipe is open.
-		return _outputVessel.addChemical(chem, Time.deltaTime * flowRate);
+		return _outputVessel.addChemical(chem, quantity * _flowRate);
 	}
 }
