@@ -28,7 +28,7 @@ using System.Collections.Generic;
 
  Actually, they do have to be entities because they have to be "on" or not, for whether to send the chemicals through or not.  */
 
-public class Vessel : MonoBehaviour
+public class Vessel : BaseClickable
 {
 	public float capacity;
 
@@ -40,7 +40,7 @@ public class Vessel : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-	
+		ClickManager.getInstance().registerClickable(this);
 	}
 	
 	// Update is called once per frame
@@ -52,10 +52,27 @@ public class Vessel : MonoBehaviour
 		}
 	}
 
-	void OnMouseDown()
+	/*for rendering pipes.
+
+	 ideally this would offset each output pipe, but for now just the one please*/
+	public Vector3 getPipeOutPoint()
 	{
-		//TODO: replace with clickable stuff!
-		Pipe.startPipe(this);
+		return transform.position;
+	}
+
+	public Vector3 getPipeInPoint()
+	{
+		return transform.position;
+	}
+
+	public override void onClickedOn()
+	{
+		PipeManager.getInstance().startPipe(this);
+	}
+
+	public override void onClickRelease()
+	{
+		PipeManager.getInstance().endPipe(this);
 	}
 
 	public void onPipeConnected(Pipe pipe)

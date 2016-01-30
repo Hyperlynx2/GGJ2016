@@ -7,7 +7,7 @@ public abstract class Reaction
 {
 	public static ICollection<Reaction> getReactions() {return _reactions;}
 
-	private static LinkedList<Reaction> _reactions;
+	private static LinkedList<Reaction> _reactions = new LinkedList<Reaction>();
 
 	public abstract void run(IDictionary<Chemical, float> reactorContents, float timeslice);
 
@@ -21,7 +21,7 @@ public class BurnHydrogen : Reaction
 {
 	public const float RATE = 100;
 
-	public void run(IDictionary<Chemical, float> reactorContents, float timeslice)
+	public override void run(IDictionary<Chemical, float> reactorContents, float timeslice)
 	{
 		try
 		{

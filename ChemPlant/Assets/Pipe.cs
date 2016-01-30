@@ -7,43 +7,42 @@ public class Pipe : MonoBehaviour
 	void Start ()
 	{
 		_isOpen = false;
+
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		//TODO: need to check for a mouse button up that's not over a collider. probably appropriate to do it here?
+
 	}
 
-	//called when clicking on a vessel
-	public static void startPipe(Vessel source)
+	/*called by PipeManager*/
+	public void setInputVessel(Vessel v)
 	{
-		_currentlyConnecting = new Pipe(); //TODO: this should probably be intantiating a pipe gameobject asset instead
-		_inputVessel = source;
+		_inputVessel = v;
+		GetComponent<LineRenderer>().SetPosition(0, _inputVessel.getPipeOutPoint());
 	}
 
-	//called when un-clicking on a vessel
-	public static void endPipe(Vessel end)
+	/*called by PipeManager*/
+	public void setOutputVessel(Vessel v)
 	{
-		if(end == _inputVessel)
+		_outputVessel = v;
+
+		if(_inputVessel == _outputVessel)
 		{
-			//TODO: destroy pipe gameobject
+			Destroy(gameObject);
 		}
 		else
 		{
-			_currentlyConnecting._outputVessel = end;
-			_inputVessel.onPipeConnected(_currentlyConnecting);
-			_currentlyConnecting = null;
+			GetComponent<LineRenderer>().SetPosition(1, _outputVessel.getPipeInPoint());
+			_inputVessel.onPipeConnected(this);
 		}
 	}
 
-	private static Pipe _currentlyConnecting = null;
-
-	//used  for a callback only
-	private static Vessel _inputVessel = null;
 
 	private bool _isOpen;
 	private Vessel _outputVessel;
+	private Vessel _inputVessel = null;
 
 	/*adds chemical to the destination vessel.
 	returns the amount of chem left over*/
@@ -52,5 +51,4 @@ public class Pipe : MonoBehaviour
 		//TODO:
 		return 0;
 	}
-
 }
