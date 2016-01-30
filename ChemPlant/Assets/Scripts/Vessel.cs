@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 /*a vessel is any thing that stores reactant. 
@@ -41,7 +41,7 @@ public class Vessel : BaseClickable
 			_contents.Add(chem.chemical.GetComponent<Chemical>(), chem.quantity);
 		}
 
-		ProductionManager.getInstance().registerVessel(this);
+		GameManager.getInstance().registerVessel(this);
 	}
 
 	private Dictionary<Chemical, float> _changes = new Dictionary<Chemical, float>();

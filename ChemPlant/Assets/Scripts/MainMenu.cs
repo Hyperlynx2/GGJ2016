@@ -6,9 +6,11 @@ public class MainMenu : MonoBehaviour
 	public string[] levelSceneNames;
 
 	public const float HEIGHT_OFFSET = 25F;
-	const float ELEMENT_HEIGHT = 50;
-	const float ELEMENT_WIDTH = 200;
-	const float SEPARATION = 5;
+	public const float ELEMENT_HEIGHT = 50;
+	public const float ELEMENT_WIDTH = 200;
+	public const float SEPARATION = 5;
+
+	public const string MENU_SCENE = "mainmenu";
 
 	public void OnGUI()
 	{
