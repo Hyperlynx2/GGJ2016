@@ -16,12 +16,12 @@ public class Reaction : MonoBehaviour
 		{
 			/*find out which chemical can react the least number of times, based on the amount in the tank and the
 			demands of the formula. That dictates how many reactions can take place.*/
-			int leastReactions = 0;
+			int leastReactions = -1;
 			foreach(ChemPair term in reagents)
 			{
-				int numReactions = reactorContents[term.chemical]/term.quantity;
+				int numReactions = (int)(reactorContents[term.chemical.GetComponent<Chemical>()]/term.quantity);
 
-				if(numReactions <= leastReactions)
+				if(leastReactions < 0 || numReactions <= leastReactions)
 				{
 					leastReactions = numReactions;
 				}
@@ -32,7 +32,7 @@ public class Reaction : MonoBehaviour
 				foreach(ChemPair term in reagents)
 				{
 					float react = Mathf.Min(rate, leastReactions) * timeslice * term.quantity;
-					reactorContents[term.chemical] -= react;
+					reactorContents[term.chemical.GetComponent<Chemical>()] -= react;
 				}
 
 				//TODO: bother to check that products can't exceed capacity? have that make the vessel go boom?
@@ -40,7 +40,15 @@ public class Reaction : MonoBehaviour
 				foreach(ChemPair term in products)
 				{
 					float react = Mathf.Min(rate, leastReactions) * timeslice * term.quantity;
-					reactorContents[term.chemical] += react;
+
+					if(reactorContents.ContainsKey(term.chemical.GetComponent<Chemical>()))
+					{
+						reactorContents[term.chemical.GetComponent<Chemical>()] += react;
+					}
+					else
+					{
+						reactorContents.Add(term.chemical.GetComponent<Chemical>(), react);
+					}
 				}
 
 			}

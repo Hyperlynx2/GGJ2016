@@ -56,6 +56,8 @@ public class Vessel : BaseClickable
 	// Update is called once per frame
 	void Update()
 	{
+		string logMessage = "<" + gameObject.name + ">\n";
+
 		Color colour = GetComponent<Renderer>().material.color;
 
 		colour.r = 0;
@@ -67,6 +69,7 @@ public class Vessel : BaseClickable
 		foreach(Chemical chem in _contents.Keys)
 		{
 			_changes.Add(chem, 0);
+			logMessage += "\t" + chem.name + ": " + _contents[chem] + '\n';
 
 			foreach(Pipe pipe in _outputs)
 			{
@@ -90,11 +93,14 @@ public class Vessel : BaseClickable
 
 		GetComponent<Renderer>().material.color = colour;
 
-		foreach(Reaction reaction in ReactionManager.getInstance().getReactions())
+		foreach(Reaction reaction in ReactionManager.getInstance().reactions)
 		{
 			reaction.run(ref _contents, Time.deltaTime);
 		}
 
+		logMessage += "</" + gameObject.name + ">\n";
+
+		print (logMessage);
 	}
 
 	/*for rendering pipes.
@@ -161,10 +167,6 @@ public class Vessel : BaseClickable
 		return excess;
 
 	}
-	
-	private void logDebug(object message)
-	{
-		print(gameObject.name + ": " + message.ToString());
-	}
+
 	
 }
