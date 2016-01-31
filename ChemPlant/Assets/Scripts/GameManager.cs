@@ -39,6 +39,9 @@ public class GameManager : MonoBehaviour
 	 */
 	public List<ChemPair> loseConditions;
 
+	public AudioClip loseSound;
+	public AudioClip winSound;
+
 	private LinkedList<Vessel> _vessels = new LinkedList<Vessel>();	
 	private static GameManager _instance = null;
 	
@@ -287,12 +290,14 @@ public class GameManager : MonoBehaviour
 	private void doWinLevel()
 	{
 		Debug.Log("You won!");
+		AudioManager.getInstance().playOnce(winSound);
 		_state = STATE.WON;
 	}
 
 	private ChemPair _lossReason; //TODO: crappy, do beter.
 	private void doLoseLevel(ChemPair reason)
 	{
+		AudioManager.getInstance().playOnce(loseSound);
 		_lossReason = reason;
 		Debug.Log("You lost! " + reason.chemical.name + " reached " + reason.quantity);
 		_state = STATE.LOST;

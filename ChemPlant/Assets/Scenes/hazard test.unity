@@ -170,7 +170,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 417222, guid: 4817d68f6c21bc749815011011bd0af3, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11487804, guid: 4817d68f6c21bc749815011011bd0af3, type: 2}
       propertyPath: loseConditions.Array.data[0].quantity
@@ -228,7 +228,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 402212, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 163994, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_Name
@@ -282,7 +282,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 402212, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 163994, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_Name
@@ -328,7 +328,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 402212, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 163994, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_Name
@@ -374,7 +374,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 462346, guid: 20e6990d2ce96b14b9c20518e24d725f, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20e6990d2ce96b14b9c20518e24d725f, type: 2}
@@ -420,7 +420,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 402212, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 163994, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_Name
@@ -478,7 +478,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 402212, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 163994, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_Name
@@ -536,7 +536,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 402212, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11414162, guid: 658534b5fd5ba7540a3c0aaa3338838f, type: 2}
       propertyPath: startingChemicals.Array.data[0].chemical

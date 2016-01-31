@@ -853,6 +853,8 @@ MonoBehaviour:
   - chemical: {fileID: 177972, guid: 61623cdc271c3294c8c98c745808ffe3, type: 2}
     quantity: 25
   loseConditions: []
+  loseSound: {fileID: 8300000, guid: df4aa74af88d78844b7922917ddd0726, type: 3}
+  winSound: {fileID: 8300000, guid: aa535b24a11307f4c83f8673880ba6c2, type: 3}
   outGameCanvas: {fileID: 22336672}
   inGameCanvas: {fileID: 22315350}
 --- !u!114 &11488326
