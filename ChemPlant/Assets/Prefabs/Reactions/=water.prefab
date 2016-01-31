@@ -11,7 +11,7 @@ GameObject:
   - 114: {fileID: 11426918}
   - 82: {fileID: 8297988}
   m_Layer: 0
-  m_Name: H2 + O-_H2O
+  m_Name: =water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

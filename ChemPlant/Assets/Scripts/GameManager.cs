@@ -225,15 +225,18 @@ public class GameManager : MonoBehaviour
 		{
 			foreach(ChemPair reagent in r.GetComponent<Reaction>().reagents)
 			{
-				reference += (reagent.quantity > 0?((int)reagent.quantity).ToString():"") + getColouredChemSymbol(reagent.chemical) + " ";
+				reference += (reagent.quantity > 0?((int)reagent.quantity).ToString():"") + getColouredChemSymbol(reagent.chemical) + " + ";
 			}
+
+			reference = reference.Substring(0, reference.Length -2);
 
 			reference += "→ ";
 
 			foreach(ChemPair product in r.GetComponent<Reaction>().products)
 			{
-				reference += (product.quantity > 0?((int)product.quantity).ToString():"") + getColouredChemSymbol(product.chemical) + " ";
+				reference += (product.quantity > 0?((int)product.quantity).ToString():"") + getColouredChemSymbol(product.chemical) + " + ";
 			}
+			reference = reference.Substring(0, reference.Length -2);
 			reference += "\n";
 		}
 

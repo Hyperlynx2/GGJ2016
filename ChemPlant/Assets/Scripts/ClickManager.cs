@@ -47,8 +47,8 @@ public class ClickManager : MonoBehaviour
 
 	void Update()
 	{
-		if(Input.GetMouseButtonDown(0)
-		|| Input.GetMouseButtonUp(0))
+		if(GameManager.getInstance().getState() == GameManager.STATE.PLAYING
+		&& (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0)))
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit = new RaycastHit();

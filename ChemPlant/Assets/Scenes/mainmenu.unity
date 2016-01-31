@@ -117,6 +117,7 @@ MonoBehaviour:
   levelSceneNames:
   - Water
   - Hazard Test
+  - Herbicide
 --- !u!4 &647499037
 Transform:
   m_ObjectHideFlags: 0

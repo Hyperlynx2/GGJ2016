@@ -11,3 +11,5 @@ EditorBuildSettings:
     path: Assets/Scenes/water.unity
   - enabled: 1
     path: Assets/Scenes/hazard test.unity
+  - enabled: 1
+    path: Assets/Scenes/herbicide.unity
