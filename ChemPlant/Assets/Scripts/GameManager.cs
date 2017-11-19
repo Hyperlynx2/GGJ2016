@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
 
 	private string getColouredChemName(Chemical chem)
 	{
-		return "<color=\"#" +chem.colour.ToHexStringRGB() + "\">" + chem.gameObject.name + "</color>";
+		return "<color=\"#" + ColorUtility.ToHtmlStringRGB(chem.colour) + "\">" + chem.gameObject.name + "</color>";
 	}
 
 	private string getColouredChemName(GameObject chem)
@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviour
 
 	private string getColouredChemSymbol(Chemical chem)
 	{
-		return "<color=\"#" +chem.colour.ToHexStringRGB() + "\">" + chem.symbol + "</color>";
+		return "<color=\"#" + ColorUtility.ToHtmlStringRGB(chem.colour) + "\">" + chem.symbol + "</color>";
 	}
 	
 	private string getColouredChemSymbol(GameObject chem)
